@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // API Functions
 async function loadDataFromServer() {
     try {
-        const response = await fetch(`${API_URL}/data`);
+     const response = await fetch("https://finance-tracker-backend-1-mcvf.onrender.com/api/data");
         const data = await response.json();
         
         if (data.success && data.data) {
@@ -121,8 +121,9 @@ async function loadDataFromServer() {
 
 async function saveDataToServer() {
     try {
-        const response = await fetch(`${API_URL}/data`, {
-            method: 'POST',
+        const response = await fetch("https://finance-tracker-backend-1-mcvf.onrender.com/api/data", {
+    method: "POST",
+
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(financeData)
         });
@@ -190,7 +191,9 @@ async function saveSettings() {
 async function resetData() {
     if (confirm('Are you sure you want to reset all data? This action cannot be undone.')) {
         try {
-            const response = await fetch(`${API_URL}/reset`, { method: 'POST' });
+            const response =await fetch("https://finance-tracker-backend-1-mcvf.onrender.com/api/reset", {
+    method: "POST",
+
             const result = await response.json();
             if (result.success) {
                 financeData = {
@@ -957,7 +960,8 @@ function startMockNotifications() {
 
     notificationInterval = setInterval(async () => {
         try {
-            const res = await fetch(`${API_URL}/next-notification`);
+            const res = await fetch("https://finance-tracker-backend-1-mcvf.onrender.com/api/next-notification")
+
             const json = await res.json();
 
             if (json.success) {
@@ -1045,6 +1049,7 @@ async function sendMessage() {
         console.error(err);
     }
 }
+
 
 
 
