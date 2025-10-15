@@ -1,5 +1,5 @@
 // API Configuration
-const API_URL = "https://ai-expense-tracker-backend-b6es.onrender.com/api";
+const API_URL = "https://finance-tracker-backend-79iq.onrender.com";
 
 // Data Storage
 let financeData = {
@@ -1045,3 +1045,4 @@ async function sendMessage() {
         console.error(err);
     }
 }
+
