@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Finance Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">💰</span>
+                <h1>AI Finance Tracker</h1>
+            </div>
+            <div class="header-actions">
+                <button class="goals-btn" onclick="openGoals()">
+                    <span>🎯</span> My Goals
+                </button>
+                <button class="settings-btn" onclick="openSettings()">
+                    <span>⚙️</span> Settings
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Overview -->
+        <section class="dashboard">
+            <div class="balance-card">
+                <div class="balance-header">
+                    <h2>Total Balance</h2>
+                    <span class="balance-icon">💳</span>
+                </div>
+                <div class="balance-amount" id="totalBalance">₹0.00</div>
+                <div class="balance-subtitle">Available funds</div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card income">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Total Income</div>
+                        <div class="stat-value" id="totalIncome">₹0.00</div>
+                    </div>
+                </div>
+                <div class="stat-card expense">
+                    <div class="stat-icon">📉</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Total Expenses</div>
+                        <div class="stat-value" id="totalExpenses">₹0.00</div>
+                    </div>
+                </div>
+                <div class="stat-card savings">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Savings Rate</div>
+                        <div class="stat-value" id="savingsRate">0%</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Section -->
+        <section class="achievements-section">
+            <h2>🏆 Your Achievements</h2>
+            <div class="achievements-container" id="achievementsContainer">
+                <div class="achievement-card locked">
+                    <span class="achievement-icon">🔒</span>
+                    <p>Start tracking to unlock badges!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Insights -->
+        <section class="insights-section">
+            <h2>🤖 AI Insights & Recommendations</h2>
+            <div class="insights-container" id="insightsContainer">
+                <div class="insight-card">
+                    <span class="insight-icon">💡</span>
+                    <p>Add transactions to get personalized insights!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add Transaction -->
+        <section class="add-transaction">
+            <h2>📱 Add SMS/UPI Notification</h2>
+            <button id="voiceBtn">🎤 Speak Transaction</button>
+            <div class="transaction-form">
+                <textarea 
+                    id="smsInput" 
+                    placeholder="Paste your SMS or UPI notification here...&#10;&#10;Example:&#10;Debited ₹350 from A/c **1234 on 03-Oct-25 to Amazon. UPI Ref: 123456789&#10;&#10;or&#10;&#10;Credited ₹5000 from salary A/c on 03-Oct-25"
+                    rows="4"
+                ></textarea>
+                <button class="btn-primary" onclick="processTransaction()">
+                    <span>🔍</span> Process & Add
+                </button>
+                <button class="btn-primary" onclick="startMockNotifications()">
+    ▶ Start Mock Notifications
+</button>
+            </div>
+        </section>
+
+        <!-- Spending Patterns -->
+        <section class="patterns-section">
+            <h2>🔍 Spending Review</h2>
+            <div class="patterns-container" id="patternsContainer">
+                <div class="empty-state">
+                    <span class="empty-icon">📈</span>
+                    <p>No patterns detected yet</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Breakdown -->
+        <section class="category-section">
+            <h2>📊 Expense Categories</h2>
+            <div class="categories-grid" id="categoriesGrid">
+                <div class="empty-state">
+                    <span class="empty-icon">📦</span>
+                    <p>No expenses yet</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Transaction History -->
+        <section class="transactions-section">
+            <div class="section-header">
+                <h2>📜 Transaction History</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterTransactions('all')">All</button>
+                    <button class="filter-btn" onclick="filterTransactions('income')">Income</button>
+                    <button class="filter-btn" onclick="filterTransactions('expense')">Expenses</button>
+                </div>
+            </div>
+            <div class="transactions-list" id="transactionsList">
+                <div class="empty-state">
+                    <span class="empty-icon">🔭</span>
+                    <p>No transactions yet</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⚙️ Settings</h2>
+                <button class="close-btn" onclick="closeSettings()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="initialBalance">Initial Balance (₹)</label>
+                    <input type="number" id="initialBalance" placeholder="Enter your current balance">
+                </div>
+                <div class="form-group">
+                    <label for="monthlyBudget">Monthly Budget (₹)</label>
+                    <input type="number" id="monthlyBudget" placeholder="Set your monthly budget">
+                </div>
+                <div class="form-group">
+                    <label for="savingsGoal">Savings Goal (%)</label>
+                    <input type="number" id="savingsGoal" placeholder="e.g., 20" min="0" max="100">
+                </div>
+                <button class="btn-primary" onclick="saveSettings()">
+                    <span>💾</span> Save Settings
+                </button>
+                <button class="btn-secondary" onclick="resetData()">
+                    <span>🔄</span> Reset All Data
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Goals Modal -->
+    <div class="modal" id="goalsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🎯 Savings Goals</h2>
+                <button class="close-btn" onclick="closeGoals()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="goals-list" id="goalsList">
+                    <!-- Goals will be added here -->
+                </div>
+                <div class="add-goal-form">
+                    <h3>Add New Goal</h3>
+                    <div class="form-group">
+                        <label for="goalName">Goal Name</label>
+                        <input type="text" id="goalName" placeholder="e.g., New Phone, Trip to Goa">
+                    </div>
+                    <div class="form-group">
+                        <label for="goalAmount">Target Amount (₹)</label>
+                        <input type="number" id="goalAmount" placeholder="e.g., 50000">
+                    </div>
+                    <div class="form-group">
+                        <label for="goalDeadline">Target Date</label>
+                        <input type="date" id="goalDeadline">
+                    </div>
+                    <button class="btn-primary" onclick="addGoal()">
+                        <span>➕</span> Add Goal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="chat-widget">
+  <button id="chat-toggle">💬</button>
+  <div id="chat-box">
+    <div id="chat-header">AI Assistant <span id="chat-close">×</span></div>
+    <div id="chat-messages"></div>
+    <div id="chat-input-area">
+      <input type="text" id="chat-input" placeholder="Ask me anything..." />
+      <button id="chat-send">Send</button>
+    </div>
+  </div>
+</div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
+
+
+
+
+
