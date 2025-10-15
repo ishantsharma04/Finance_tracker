@@ -1,5 +1,5 @@
 // API Configuration
-const API_URL = "https://finance-tracker-backend-79iq.onrender.com";
+const API_URL = "https://finance-tracker-backend-1-mcvf.onrender.com";
 
 // Data Storage
 let financeData = {
@@ -1045,5 +1045,6 @@ async function sendMessage() {
         console.error(err);
     }
 }
+
 
 
